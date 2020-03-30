@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +21,6 @@ import java.io.PrintWriter;
 
 public class InsertWordActivity extends AppCompatActivity {
     public EditText insertWord;
-    public TextView showText;
     public Button insertButton;
     public String s;
     public int count = 0;
@@ -34,25 +32,6 @@ public class InsertWordActivity extends AppCompatActivity {
         MainActivity.myAdapter.notifyItemInserted(position);
     }
 
-    //    To insert a word into the txt file
-//    public void insertWord(int position, String s) {
-//       saveFile();
-////        int r=0;
-////        for (int i = s.length()-1; i >0 ; i--) {
-////            char c =s.charAt(i);
-////            r=(int) c + a*r;
-//////            System.out.println("r="+r);
-////        }
-//
-////        File f = new File("words.txt");
-////        Scanner scan =new Scanner(f);
-////        while(scan.hasNextLine()){
-////            System.out.println(scan.next());
-////        }
-//
-//        FileInputStream fInput=null;
-//        fInput=openFileInput(FILE_NAME);
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,34 +44,10 @@ public class InsertWordActivity extends AppCompatActivity {
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                readFile();
-                //                    int size = inStream.available();
-//
-//                    byte[] buffer = new byte[size];
-//                    inStream.read(buffer);
-//                    inStream.close();
-//
-//                        text = new String(buffer);
-//                        insertItem(position, text);
-
-//            fInput = openFileInput(FILE_NAME);
-//            InputStreamReader inStreamReader = new InputStreamReader(fInput);
-//            BufferedReader buffReader = new BufferedReader(inStreamReader);
-//            StringBuilder stBuilder = new StringBuilder();
-//            String text;
-//            while ((text = buffReader.readLine()) != null) {
-//                stBuilder.append(text).append("\n");
-//            }
-
-//        catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-
 
 //                gets the array size from main activity so as to input new word at bottom of array
                 insertWord.onEditorAction(EditorInfo.IME_ACTION_DONE);
-//                int position=
-//                int position = MainActivity.arraySize();
+
                 s = insertWord.getText().toString();
                 if (s.isEmpty()) {
                     Toast.makeText(getApplicationContext(), s + "Invalid Word", Toast.LENGTH_LONG).show();
@@ -100,11 +55,10 @@ public class InsertWordActivity extends AppCompatActivity {
 //                 Passes the word to be inserted. Displays the new word has been inserted in the list.
                 else {
 //                    Display a toast that shows the word has been inserted into the list
-                    Toast.makeText(getApplicationContext(), s + " has been inserted in the list", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "\"" + s + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
+
 //                  Pass the word to the dictionary class so that it can be inserted into the txt file
-
                     writeFile();
-
 //                     Pass the word to the insertItem method so that it can be inserted into the recyclerView
                     insertItem(position, s);
                     insertWord.setText("");
@@ -112,10 +66,11 @@ public class InsertWordActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
+    //    Clears the txt file in the internal memory
     public void clearFile() {
+
         File file = new File(getExternalFilesDir("raw"), "words.txt");
         try {
             FileWriter fw = new FileWriter(file, false);
@@ -136,19 +91,16 @@ public class InsertWordActivity extends AppCompatActivity {
     public void writeFile() {
 
         File file = new File(getExternalFilesDir("raw"), "words.txt");
-//        int count = 0;
-        if (count > 0) {
-            count = 0;
-            clearFile();
-        }
-
+        clearFile();
         FileOutputStream fOutput = null;
 
-
+        MainActivity.wordList.add(s);
         for (String t : MainActivity.wordList) {
 //For each word inserted count++
+
             t = "\n" + t;
             count = count + 1;
+
 
             try {
                 fOutput = new FileOutputStream(file, true);
@@ -158,6 +110,7 @@ public class InsertWordActivity extends AppCompatActivity {
                 fOutput.write(t.getBytes());
 
 //            fOutput.write(s.getBytes());
+                fOutput.flush();
                 fOutput.close();
 //            File fileName = new File("words.txt");
             } catch (IOException e) {
@@ -172,7 +125,7 @@ public class InsertWordActivity extends AppCompatActivity {
                 }
             }
         }
-        MainActivity.wordList = null;
+//        MainActivity.wordList = null;
     }
 }
 

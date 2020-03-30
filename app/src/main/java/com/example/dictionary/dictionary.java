@@ -3,22 +3,31 @@ package com.example.dictionary;
 public class dictionary {
 
 
-    //    Program the search algorithim here
+    //    Program the search algorithm here
     public static String searchWord(String searchView) {
         String newWord = "";
 //        The list for the search array is MainActivity.wordList;
         //Search For word here
-
+//upon search query complete, the word is @
+//        Toast.makeText(getApplicationContext(), the word+" is at this "+position +" in the list", Toast.LENGTH_LONG).show();
         return newWord;
     }
 
+    //    The word position in the list. After calculating the position for the word
     public static int wordPosition() {
 
+//        This is temporary to test program
         int position = MainActivity.arraySize();
         return position;
     }
 
+    //    Remove the item from the list. (
     public static void removeItem(int position) {
+//Program to remove the word from the wordlist file
+//        Write here
+
+
+//        Item will be removed from the recycler view
         MainActivity.myWordList.remove(position);
         MainActivity.myAdapter.notifyItemRemoved(position);
     }

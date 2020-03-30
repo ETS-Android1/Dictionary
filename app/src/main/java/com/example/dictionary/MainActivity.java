@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<String> wordList = new ArrayList<>();
 
 
-
     public static int arraySize() {
         return myWordList.size();
     }
@@ -108,7 +107,26 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //    Some method calls cannot be static. Therefore making a reference to this method from a static context results in an error
+    //    Reads the file situated at the assets folder
+    public void readFile() {
+        BufferedReader reader;
+        try {
+
+            InputStream inStream = getAssets().open("words.txt");
+            reader = new BufferedReader(new InputStreamReader(inStream));
+            String line = reader.readLine();
+            while (line != null) {
+                line = reader.readLine();
+                wordList.add(line);
+                InsertWordActivity.insertItem(dictionary.wordPosition(), line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+//    Some method calls cannot be static. Therefore making a reference to this method from a static context results in an error
 //    public void writeFileForMain() {
 //
 //        try {
@@ -148,27 +166,3 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
-
-
-    public void readFile() {
-//         File file = new File(getExternalFilesDir("raw"), FILE_NAME);
-
-        BufferedReader reader;
-        try {
-//            InputStream inStream = new FileInputStream(file);
-            InputStream inStream = getAssets().open("words.txt");
-//                    Scanner scan = new Scanner(inStream);
-            reader = new BufferedReader(new InputStreamReader(inStream));
-            String line = reader.readLine();
-            while (line != null) {
-//                        Log.d("StackOverflow", line);
-                line = reader.readLine();
-                wordList.add(line);
-                InsertWordActivity.insertItem(dictionary.wordPosition(), line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
