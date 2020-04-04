@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         myAdapter.setOnItemClickListener(new WordAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
+
                 dictionary.removeItem(position);
 
             }

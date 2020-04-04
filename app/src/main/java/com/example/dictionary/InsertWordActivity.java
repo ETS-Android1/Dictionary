@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 public class InsertWordActivity extends AppCompatActivity {
     public EditText insertWord;
     public Button insertButton;
-    public String s;
+    public static String s;
     public int count = 0;
     public int position = dictionary.wordPosition();
 
@@ -72,6 +72,7 @@ public class InsertWordActivity extends AppCompatActivity {
     public void clearFile() {
 
         File file = new File(getExternalFilesDir("raw"), "words.txt");
+        file.deleteOnExit();
         try {
             FileWriter fw = new FileWriter(file, false);
 
