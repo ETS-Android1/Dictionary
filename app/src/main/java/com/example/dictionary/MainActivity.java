@@ -6,18 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import static com.example.dictionary.dictionary.searchWord;
 
 public class MainActivity extends AppCompatActivity {
     //    myWordList is for the Ui list. wordList is for txt file
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static WordAdapter myAdapter;
     public RecyclerView myRecyclerView;
     public Button insert;
+    public int count = 0;
     public SearchView searchView;
     public RecyclerView.LayoutManager myLayoutManager;
     //    public String FILE_NAME = "words.txt";
@@ -49,18 +54,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-//                if (!searchView.isIconified()) {
-//                    searchView.setIconified(true);
-//                }
-//                searchView.onActionViewCollapsed();
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //                Run search query program by sending the query string to the search query class
-                searchWord(newText);
+                //    Program the search algorithm here
+                if (wordList.contains(newText)) {
+                    Toast.makeText(getApplicationContext(), newText + " is in the list", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), newText + " isn't in the list", Toast.LENGTH_LONG).show();
+                }
+
                 return false;
             }
         });
@@ -83,8 +88,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDeleteClick(int position) {
 
-                dictionary.removeItem(position);
 
+//Program to remove the word from the wordlist file
+                MainActivity.wordList.remove(position);
+                writeFile();
+
+//                Item will be removed from the recycler view
+                MainActivity.myWordList.remove(position);
+                MainActivity.myAdapter.notifyItemRemoved(position);
             }
         });
     }
@@ -116,15 +127,80 @@ public class MainActivity extends AppCompatActivity {
             InputStream inStream = getAssets().open("words.txt");
             reader = new BufferedReader(new InputStreamReader(inStream));
             String line = reader.readLine();
+
             while (line != null) {
                 line = reader.readLine();
                 wordList.add(line);
+                if (line == null) {
+                    break;
+                }
                 InsertWordActivity.insertItem(dictionary.wordPosition(), line);
             }
-
+//wordList.remove(wordList.get(MainActivity.arraySize()-1));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //    Same as that in InsertWordActivity. Some Items could not be resolved due to static context
+    //Insert: Upon method call the current list is deleted and replaced with an updated arrayList
+    public void writeFile() {
+
+        File file = new File(getExternalFilesDir("raw"), "words.txt");
+        clearFile();
+        FileOutputStream fOutput = null;
+
+
+        for (String t : MainActivity.wordList) {
+//For each word inserted count++
+
+            t = "\n" + t;
+            count = count + 1;
+
+
+            try {
+                fOutput = new FileOutputStream(file, true);
+
+                fOutput.write(t.getBytes());
+
+
+                fOutput.flush();
+                fOutput.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fOutput != null) {
+                    try {
+                        fOutput.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+    }
+
+    //    Same as that in InsertWordActivity. Some Items could not be resolved due to static context
+    //    Clears the txt file in the internal memory
+    public void clearFile() {
+
+        File file = new File(getExternalFilesDir("raw"), "words.txt");
+        file.deleteOnExit();
+        try {
+            FileWriter fw = new FileWriter(file, false);
+
+            PrintWriter printWriter = new PrintWriter(fw, false);
+            printWriter.flush();
+            printWriter.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
 //    Some method calls cannot be static. Therefore making a reference to this method from a static context results in an error

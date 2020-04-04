@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 
 //import static com.example.dictionary.MainActivity.FILE_NAME;
 
@@ -22,8 +24,9 @@ import java.io.PrintWriter;
 public class InsertWordActivity extends AppCompatActivity {
     public EditText insertWord;
     public Button insertButton;
-    public static String s;
+    public String s;
     public int count = 0;
+    public ArrayList<String> tempArr;
     public int position = dictionary.wordPosition();
 
     //    Adds a new word item at the appropriate index
@@ -54,8 +57,13 @@ public class InsertWordActivity extends AppCompatActivity {
                 }
 //                 Passes the word to be inserted. Displays the new word has been inserted in the list.
                 else {
+                    MainActivity.wordList.add(s);
+                    Collections.sort(MainActivity.wordList);
+                    MainActivity.wordList = tempArr;
+                    tempArr = MainActivity.wordList;
 //                    Display a toast that shows the word has been inserted into the list
                     Toast.makeText(getApplicationContext(), "\"" + s + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
+
 
 //                  Pass the word to the dictionary class so that it can be inserted into the txt file
                     writeFile();
@@ -95,7 +103,7 @@ public class InsertWordActivity extends AppCompatActivity {
         clearFile();
         FileOutputStream fOutput = null;
 
-        MainActivity.wordList.add(s);
+
         for (String t : MainActivity.wordList) {
 //For each word inserted count++
 
@@ -105,28 +113,27 @@ public class InsertWordActivity extends AppCompatActivity {
 
             try {
                 fOutput = new FileOutputStream(file, true);
-//            String fileName=file;
-//            fOutput = openFileOutput("words.txt", Context.MODE_PRIVATE);
-//            byte[] byteArr=;
+
                 fOutput.write(t.getBytes());
 
-//            fOutput.write(s.getBytes());
+
                 fOutput.flush();
                 fOutput.close();
-//            File fileName = new File("words.txt");
+
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 if (fOutput != null) {
                     try {
                         fOutput.close();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-//        MainActivity.wordList = null;
+
     }
 }
 

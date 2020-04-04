@@ -1,60 +1,32 @@
 package com.example.dictionary;
 
 public class dictionary {
-    public static final int a = 1;
-
-    //    Program the search algorithm here
-    public static String searchWord(String newText) {
-        String newWord = "";
-//        The list for the search array is MainActivity.wordList;
-        //Search For word here
-//        if ()
-//upon search query complete, the word is @
-//        Toast.makeText(getApplicationContext(), the word+" is at this "+position +" in the list", Toast.LENGTH_LONG).show();
-        return newWord;
-    }
+    public static final int a = 31;
 
     //    The word position in the list. After calculating the position for the word
     public static int wordPosition() {
 
 //        This is temporary to test program
         int position = MainActivity.arraySize();
-//        int position = hashCodePos();
+//        int position = hashCode(InsertWordActivity)
         return position;
     }
 
-    //    Remove the item from the list. (
-    public static void removeItem(int position) {
-//Program to remove the word from the wordlist file
-//        Write here
-//position=0;
-//MainActivity.wordList.contains()
-//        Item will be removed from the recycler view
-        MainActivity.myWordList.remove(position);
-        MainActivity.myAdapter.notifyItemRemoved(position);
-    }
 
-    public static int hashCodePos() {
-        int i = 0;
-        int r;
-        for (String w : MainActivity.wordList) {
+    public static int hashCode(String s) {
 
-            r = 0;
-//            int r = 0;
-            int c;
-            for (i = w.length() - 1; i >= 0; i--) {
-                c = w.charAt(i);
+        int i;
+        int r = 0;
+        char c;
 
-                r = c + a * r;
-//                r=;
+        for (i = s.length() - 1; i >= 0; i--) {
+            c = s.charAt(i);
 
-            }
+            r = (int) c + a * r;
 
-            return (r);
         }
 
-
-        return 0;
+        return (r);
     }
 }
 
