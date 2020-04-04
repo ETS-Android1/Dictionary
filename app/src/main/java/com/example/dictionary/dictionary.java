@@ -18,8 +18,8 @@ public class dictionary {
     public static int wordPosition() {
 
 //        This is temporary to test program
-//        int position = MainActivity.arraySize();
-        int position = hashCodePos();
+        int position = MainActivity.arraySize();
+//        int position = hashCodePos();
         return position;
     }
 
