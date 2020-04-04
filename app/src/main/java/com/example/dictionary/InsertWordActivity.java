@@ -59,12 +59,8 @@ public class InsertWordActivity extends AppCompatActivity {
                 else {
                     MainActivity.wordList.add(s);
                     Collections.sort(MainActivity.wordList);
-                    MainActivity.wordList = tempArr;
-                    tempArr = MainActivity.wordList;
 //                    Display a toast that shows the word has been inserted into the list
                     Toast.makeText(getApplicationContext(), "\"" + s + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
-
-
 //                  Pass the word to the dictionary class so that it can be inserted into the txt file
                     writeFile();
 //                     Pass the word to the insertItem method so that it can be inserted into the recyclerView
@@ -135,6 +131,8 @@ public class InsertWordActivity extends AppCompatActivity {
         }
 
     }
+
+
 }
 
 
