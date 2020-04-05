@@ -9,10 +9,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -105,13 +107,37 @@ public class InsertWordActivity extends AppCompatActivity {
         File file = new File(getExternalFilesDir("raw"), "words.txt");
         clearFile();
 
+//        FileOutputStream fos = new FileOutputStream(fout);
+//
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+//
+//                for (String t : MainActivity.wordList) {
+//                    try {
+//                        bw.write("something");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    try {
+//                        bw.newLine();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//        try {
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
+//         fOutput=null;
 
         for (String t : MainActivity.wordList) {
 //For each word inserted count++
 
             t = "\n" + t;
-            count = count + 1;
+//            count = count + 1;
 
 
             try {
@@ -142,5 +168,16 @@ public class InsertWordActivity extends AppCompatActivity {
 
 
 }
-
+//BufferedWriter writer;
+//        FileWriter fWrite= null;
+//        writer = new BufferedWriter(fWrite);
+//        try {
+//            fWrite = new FileWriter("words.txt");
+//            for (String t : MainActivity.wordList) {
+//            fWrite.write(t+"\n");
+//            }
+//            fWrite.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 

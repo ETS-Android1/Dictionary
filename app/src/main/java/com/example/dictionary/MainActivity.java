@@ -131,10 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
             while (line != null) {
                 line = reader.readLine();
-                wordList.add(line);
                 if (line == null) {
                     break;
                 }
+                wordList.add(line);
+
                 InsertWordActivity.insertItem(dictionary.wordPosition(), line);
             }
 //wordList.remove(wordList.get(MainActivity.arraySize()-1));
