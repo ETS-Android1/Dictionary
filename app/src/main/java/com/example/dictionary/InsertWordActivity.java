@@ -60,12 +60,12 @@ public class InsertWordActivity extends AppCompatActivity {
                 else {
                     MainActivity.wordList.add(s);
 //                    Collections.sort(MainActivity.wordList);
-                    Collections.sort(MainActivity.wordList, new Comparator<String>() {
-                        @Override
-                        public int compare(String s1, String s2) {
-                            return s1.compareToIgnoreCase(s2);
-                        }
-                    });
+//                    Collections.sort(MainActivity.wordList, new Comparator<String>() {
+//                        @Override
+//                        public int compare(String s1, String s2) {
+//                            return s1.compareToIgnoreCase(s2);
+//                        }
+//                    });
 //                    Display a toast that shows the word has been inserted into the list
                     Toast.makeText(getApplicationContext(), "\"" + s + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
 //                  Pass the word to the dictionary class so that it can be inserted into the txt file
@@ -104,7 +104,7 @@ public class InsertWordActivity extends AppCompatActivity {
 
         File file = new File(getExternalFilesDir("raw"), "words.txt");
         clearFile();
-        FileOutputStream fOutput = null;
+
 
 
         for (String t : MainActivity.wordList) {
@@ -115,7 +115,7 @@ public class InsertWordActivity extends AppCompatActivity {
 
 
             try {
-                fOutput = new FileOutputStream(file, true);
+                FileOutputStream fOutput  = new FileOutputStream(file, true);
 
                 fOutput.write(t.getBytes());
 
@@ -125,16 +125,17 @@ public class InsertWordActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                if (fOutput != null) {
-                    try {
-                        fOutput.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
+//            finally {
+//                if (fOutput != null) {
+//                    try {
+//                        fOutput.close();
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
         }
 
     }
