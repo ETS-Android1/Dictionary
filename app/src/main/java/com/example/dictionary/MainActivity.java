@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 //    Program the search algorithm here
                 if (wordList.contains(newText)) {
                     Toast.makeText(getApplicationContext(), newText + " is in the list", Toast.LENGTH_LONG).show();
+//                                  .setGravity(Gravity.CENTER_VERTICAL|Gravity.TOP,90,0);
                 } else {
                     Toast.makeText(getApplicationContext(), newText + " isn't in the list", Toast.LENGTH_LONG).show();
                 }
