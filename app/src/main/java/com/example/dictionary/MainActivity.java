@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         for (String t : MainActivity.wordList) {
 //For each word inserted count++
 
-            t = "\n" + t;
+            t =  t+"\n" ;
             count = count + 1;
 
 

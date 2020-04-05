@@ -61,7 +61,7 @@ public class InsertWordActivity extends AppCompatActivity {
 //                 Passes the word to be inserted. Displays the new word has been inserted in the list.
                 else {
                     MainActivity.wordList.add(s);
-//                    Collections.sort(MainActivity.wordList);
+                    Collections.sort(MainActivity.wordList);
 //                    Collections.sort(MainActivity.wordList, new Comparator<String>() {
 //                        @Override
 //                        public int compare(String s1, String s2) {
@@ -136,7 +136,7 @@ public class InsertWordActivity extends AppCompatActivity {
         for (String t : MainActivity.wordList) {
 //For each word inserted count++
 
-            t = "\n" + t;
+            t = t+"\n" ;
 //            count = count + 1;
 
 
