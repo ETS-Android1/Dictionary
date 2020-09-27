@@ -1,6 +1,5 @@
 package com.example.dictionary;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView.LayoutManager myLayoutManager;
     //    public String FILE_NAME = "words.txt";
     public static ArrayList<String> wordList = new ArrayList<>();
-
-
     public static int arraySize() {
         return myWordList.size();
     }

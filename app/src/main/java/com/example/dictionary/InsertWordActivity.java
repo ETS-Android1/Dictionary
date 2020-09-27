@@ -134,8 +134,7 @@ public class InsertWordActivity extends AppCompatActivity {
 //         fOutput=null;
 
         for (String t : MainActivity.wordList) {
-//For each word inserted count++
-
+//For each word inserted count+
             t = t+"\n" ;
 //            count = count + 1;
 
