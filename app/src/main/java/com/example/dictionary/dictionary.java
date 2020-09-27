@@ -1,15 +1,18 @@
 package com.example.dictionary;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
 public class dictionary {
     public static final int a = 31;
+    private static final String FILE_NAME = "words.txt";
 
-    //    The word position in the list. After calculating the position for the word
+    //The word position in the list. After calculating the position for the word
     public static int wordPosition() {
-
-//        This is temporary to test program
-        int position = MainActivity.arraySize();
-//        int position = hashCode(InsertWordActivity)
-        return position;
+        return MainActivity.arraySize();
     }
 
 
@@ -28,59 +31,82 @@ public class dictionary {
 
         return (r);
     }
-}
 
 
-//File file = new File(getExternalFilesDir("raw"),FILE_NAME);
+    //TODO search, insert, delete algorthms the array with the list of words to apply data structures is "MainActivity.wordListArray"
+    public static boolean searchWord(String text) {
+      /*  TODO program the searchWord algorithm here using the wordListArray as the list of words to search through.
+                   Return boolean val if word exists */
+        return false;
+    }
+
+    public static boolean insertWord(String text) {
+      /*  TODO program the searchWord algorithm here using the wordListArray as the list of words to search through.
+                   Return boolean val if word exists */
+        return false;
+    }
+
+    public static boolean deleteWord(String text) {
+      /*  TODO program the deleteWord algorithm here using the wordListArray as the list of words to search through.
+                   Return boolean val if word exists */
+        return false;
+    }
+
+    public static void sortWordsList() {
+
+    }
+
+    //Insert: Upon method call the current list is deleted and replaced with an updated arrayList
+    public static void writeFile() {
+        int count = 0;
+        clearFile();
+        for (String t : MainActivity.wordListArray) {
+//For each word inserted count++
+
+            t = t + "\n";
+            count = count + 1;
+
+
+            try {
+                FileOutputStream fOutput = null;
+                fOutput = new FileOutputStream(FILE_NAME, true);
+
+                fOutput.write(t.getBytes());
+
+
+                fOutput.flush();
+                fOutput.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            finally {
+//                if (fOutput != null) {
+//                    try {
+//                        fOutput.close();
 //
-//        FileOutputStream fOutput = null;
-//        try {
-//            fOutput=new FileOutputStream(FILE_NAME,true);
-////            String fileName=file;
-//            fOutput = openFileOutput(FILE_NAME, MODE_PRIVATE);
-////            byte[] byteArr=;
-//            fOutput.write(s.getBytes());
-////            fOutput.write(s.getBytes());
-//            fOutput.close();
-////            File fileName = new File("words.txt");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        finally {
-//            if (fOutput != null) {
-//                try {
-//                    fOutput.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 //                }
 //            }
-//        }
+        }
+
+    }
+
+    public static void clearFile() {
+        //    Clears the txt file in the internal memory
+        try {
+            FileWriter fw = new FileWriter(FILE_NAME, false);
+
+            PrintWriter printWriter = new PrintWriter(fw, false);
+            printWriter.flush();
+            printWriter.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
-//This one can append to an external file
-// File file = new File(getExternalFilesDir("raw"), FILE_NAME);
-//s=s+"\n";
-//        FileOutputStream fOutput = null;
-//        try {
-//            fOutput=new FileOutputStream(file,true);
-////            String fileName=file;
-////            fOutput = openFileOutput("words.txt", Context.MODE_PRIVATE);
-////            byte[] byteArr=;
-//            fOutput.write(s.getBytes());
-////            fOutput.write(s.getBytes());
-//            fOutput.close();
-////            File fileName = new File("words.txt");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (fOutput != null) {
-//                try {
-//                    fOutput.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+    }
+}

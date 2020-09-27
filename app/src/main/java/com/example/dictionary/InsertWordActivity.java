@@ -9,31 +9,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
-//import static com.example.dictionary.MainActivity.FILE_NAME;
-
-//import static com.example.dictionary.dictionary.FILE_NAME;
 
 public class InsertWordActivity extends AppCompatActivity {
     public EditText insertWord;
     public Button insertButton;
-    public String s;
+    public String _insertWord;
     public int count = 0;
     public ArrayList<String> tempArr;
     public int position = dictionary.wordPosition();
 
     //    Adds a new word item at the appropriate index
     public static void insertItem(int position, String newWord) {
+        //TODO Program the insert word algorithm here by using "insertWord(newWord)" below. "newWord" is what you are passing through
+//        dictionary.insertWord(newWord);
         MainActivity.myWordList.add(position, new WordItem(newWord));
         MainActivity.myAdapter.notifyItemInserted(position);
     }
@@ -44,139 +35,38 @@ public class InsertWordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_word);
 
-
+        //Initializing insertWord & insertButton variables
         insertWord = findViewById(R.id.insertText);
         insertButton = findViewById(R.id.insert);
+
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                gets the array size from main activity so as to input new word at bottom of array
+                //gets the array size from main activity so as to input new word at bottom of array
                 insertWord.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                _insertWord = insertWord.getText().toString();
 
-                s = insertWord.getText().toString();
-                if (s.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), s + "Invalid Word", Toast.LENGTH_LONG).show();
-                }
-//                 Passes the word to be inserted. Displays the new word has been inserted in the list.
-                else {
-                    MainActivity.wordList.add(s);
-                    Collections.sort(MainActivity.wordList);
-//                    Collections.sort(MainActivity.wordList, new Comparator<String>() {
-//                        @Override
-//                        public int compare(String s1, String s2) {
-//                            return s1.compareToIgnoreCase(s2);
-//                        }
-//                    });
-//                    Display a toast that shows the word has been inserted into the list
-                    Toast.makeText(getApplicationContext(), "\"" + s + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
-//                  Pass the word to the dictionary class so that it can be inserted into the txt file
-                    writeFile();
-//                     Pass the word to the insertItem method so that it can be inserted into the recyclerView
-                    insertItem(position, s);
+                /* If the inserted word is empty return a toast with a msg*/
+                if (_insertWord.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), _insertWord + "Invalid Word", Toast.LENGTH_LONG).show();
+                } else {
+                    /* Passes the word to be inserted. Displays the new word has been inserted in the list.
+                    The word gets added and sorted in the main activity word list, followed by a toast to indicate success
+                    i.e. The list of words displayed will show the newly inserted word sorted */
+                    MainActivity.wordListArray.add(_insertWord);
+                    Collections.sort(MainActivity.wordListArray);
+                    Toast.makeText(getApplicationContext(), "\"" + _insertWord + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
+
+                    //Pass the word to the dictionary class so that it can be inserted into the txt file
+                    dictionary.writeFile();
+                    //Pass the word to the insertItem method so that it can be inserted into the recyclerView
+                    insertItem(position, _insertWord);
                     insertWord.setText("");
+
                 }
             }
         });
 
     }
-
-    //    Clears the txt file in the internal memory
-    public void clearFile() {
-
-        File file = new File(getExternalFilesDir("raw"), "words.txt");
-        file.deleteOnExit();
-        try {
-            FileWriter fw = new FileWriter(file, false);
-
-            PrintWriter printWriter = new PrintWriter(fw, false);
-            printWriter.flush();
-            printWriter.close();
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    //Same as the one in Main but no static context errors.
-//Insert: Upon method call the current list is deleted and replaced with an updated arrayList
-    public void writeFile() {
-
-        File file = new File(getExternalFilesDir("raw"), "words.txt");
-        clearFile();
-
-//        FileOutputStream fos = new FileOutputStream(fout);
-//
-//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-//
-//                for (String t : MainActivity.wordList) {
-//                    try {
-//                        bw.write("something");
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    try {
-//                        bw.newLine();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//        try {
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//         fOutput=null;
-
-        for (String t : MainActivity.wordList) {
-//For each word inserted count+
-            t = t+"\n" ;
-//            count = count + 1;
-
-
-            try {
-                FileOutputStream fOutput  = new FileOutputStream(file, true);
-
-                fOutput.write(t.getBytes());
-
-
-                fOutput.flush();
-                fOutput.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            finally {
-//                if (fOutput != null) {
-//                    try {
-//                        fOutput.close();
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-        }
-
-    }
-
-
 }
-//BufferedWriter writer;
-//        FileWriter fWrite= null;
-//        writer = new BufferedWriter(fWrite);
-//        try {
-//            fWrite = new FileWriter("words.txt");
-//            for (String t : MainActivity.wordList) {
-//            fWrite.write(t+"\n");
-//            }
-//            fWrite.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
