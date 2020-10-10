@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String _word) {
                 //TODO Program the search algorithm here using "searchWord(newText);" below. "_word" is what you are passing through
                 //Program the search algorithm here
-//                 dictionary.searchWord(_word);
+//                 dictionary.searchWord(_word,0,MainActivity.wordArrayList);
                 if (wordListArray.contains(_word)) {
                     Toast.makeText(getApplicationContext(), _word + " is in the list", Toast.LENGTH_LONG).show();
                 } else {
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 wordListArray.add(line);
 
                 //The txt file in the internal storage is
-                InsertWordActivity.insertItem(dictionary.wordPosition(), line);
+                InsertWordActivity.insertItem(dictionary.wordPosition, line);
             }
 //wordList.remove(wordList.get(MainActivity.arraySize()-1));
         } catch (IOException e) {

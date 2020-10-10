@@ -19,7 +19,7 @@ public class InsertWordActivity extends AppCompatActivity {
     public String _insertWord;
     public int count = 0;
     public ArrayList<String> tempArr;
-    public int position = dictionary.wordPosition();
+    public int position = dictionary.wordPosition;
 
     //    Adds a new word item at the appropriate index
     public static void insertItem(int position, String newWord) {
