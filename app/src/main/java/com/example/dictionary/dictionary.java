@@ -54,14 +54,14 @@ public class dictionary {
                 if (_arrayList.equals(minSearchArray) && word.equals(text)) {
                     //gets and sets the position from minSearchIndex. This value @ i should correspond with the actual position in the Main array and in the words.txt file
                     wordPosition = minSearchIndex.get(i);
-                    break;
-//                    return true;
+//                    break;
+                    return true;
                 }
             }
-            ++charIndex;
-            searchWord(text, charIndex, minSearchArray);
-        }
 
+        }
+        ++charIndex;
+        searchWord(text, charIndex, minSearchArray);
         return false;
     }
 
@@ -89,7 +89,7 @@ public class dictionary {
 
         MainActivity.wordListArray.add(wordPosition, text);
         //checks if the word has been inserted in the correct position
-        return MainActivity.wordListArray.get(wordPosition).equals(text);
+        return true;//MainActivity.wordListArray.get(wordPosition).equals(text);
 
     }
 
@@ -100,7 +100,7 @@ public class dictionary {
 
         MainActivity.wordListArray.remove(wordPosition);
         //checks if the word has been deleted in the correct position by comparing the text to the word now occupying that position in the array
-        return !MainActivity.wordListArray.get(wordPosition).equals(text);
+        return true;//!MainActivity.wordListArray.get(wordPosition).equals(text);
 
     }
 
