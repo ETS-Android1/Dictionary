@@ -11,19 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
-
 public class InsertWordActivity extends AppCompatActivity {
+    public static File file;
     public EditText insertWord;
     public Button insertButton;
     public String _insertWord;
-    public int position = dictionary.wordPosition;
-    public static File file;
-    //    Adds a new word item at the appropriate index
+
+    //    Adds a new word item at the appropriate index. This is to ensure the word being inserted is entered at the right index.
     public static void insertItem(int position, String newWord) {
         MainActivity.myWordList.add(position, new WordItem(newWord));
         MainActivity.myAdapter.notifyItemInserted(position);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +47,30 @@ public class InsertWordActivity extends AppCompatActivity {
                     /* Passes the word to be inserted. Displays the new word has been inserted in the list.
                     The word gets added and sorted in the main activity word list, followed by a toast to indicate success
                     i.e. The list of words displayed will show the newly inserted word sorted */
-                    dictionary.insertWord(_insertWord);
-//                    Collections.sort(MainActivity.wordListArray);
-                    Toast.makeText(getApplicationContext(), "\"" + _insertWord + "\"" + " has been inserted in the list at index " + position, Toast.LENGTH_LONG).show();
+                    dictionary.insertWord(dictionary.hashMap, _insertWord);
+                    Toast.makeText(getApplicationContext(), "\"" + _insertWord + "\"" + " has been inserted in the list", Toast.LENGTH_LONG).show();
                     //Pass the word to the insertItem method so that it can be inserted into the recyclerView
-                    insertItem(position, _insertWord);
+                    insertItem(0, _insertWord);
                     insertWord.setText("");
-                    //Pass the word to the dictionary class so that it can be inserted into the txt file
-                    //File file = new File(getExternalFilesDir("raw"), "words.txt");
-                    //dictionary.writeFile(file);
-                    WriteThread writeThread = new WriteThread();
-                    writeThread.start();
+                    //create a thread to update the txt file upon word insert
+                    WriteThread insertThread = new WriteThread();
+                    insertThread.start();
                 }
             }
         });
-
     }
 
+    //Thread to write to file upon word inserted
     class WriteThread extends Thread {
-
         @Override
         public void run() {
-            dictionary.writeFile(file);
+            try {
+                dictionary.writeFile(file);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 }
 

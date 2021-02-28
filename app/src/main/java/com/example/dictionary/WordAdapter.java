@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder> {
-    private ArrayList<WordItem> myWordList;
+    private final ArrayList<WordItem> myWordList;
     private OnItemClickListener myListener;
 
     public WordAdapter(ArrayList<WordItem> wordList) {
@@ -28,8 +28,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_items, parent, false);
-        WordViewHolder wvh = new WordViewHolder(v, myListener);
-        return wvh;
+        return new WordViewHolder(v, myListener);
     }
 
     public interface OnItemClickListener {
@@ -39,7 +38,6 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
         WordItem currentItem = myWordList.get(position);
-
         holder.myTextView.setText(currentItem.getWord());
     }
 

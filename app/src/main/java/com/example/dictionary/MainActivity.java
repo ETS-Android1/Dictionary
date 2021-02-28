@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     //myWordList is for the Ui list. wordListArray is for txt file
     public static ArrayList<WordItem> myWordList;
     public static WordAdapter myAdapter;
-    public static ArrayList<String> wordListArray = new ArrayList<>();
     public RecyclerView myRecyclerView;
     public Button insert;
     public SearchView searchView;
@@ -49,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                boolean _found = dictionary.searchWord(query, MainActivity.wordListArray);
+                boolean _found = dictionary.searchWord(dictionary.hashMap, query);
                 //A snackbar  (and the words position determined from 0-wordListArray.size) will be returned to the screen if the word is found
                 if (_found) {
-                    Toast.makeText(getApplicationContext(), query + " is in the list at index " + dictionary.wordPosition, Toast.LENGTH_LONG).show();
-                } else if (!_found) {
+                    Toast.makeText(getApplicationContext(), query + " is in the list", Toast.LENGTH_LONG).show();
+                } else {
                     Toast.makeText(getApplicationContext(), query + " isn't in the list", Toast.LENGTH_LONG).show();
                 }
                 return false;
@@ -75,20 +74,21 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new WordAdapter(myWordList);
         myRecyclerView.setLayoutManager(myLayoutManager);
         myRecyclerView.setAdapter(myAdapter);
-        final WriteThread writeThread = new WriteThread();
+//        final WriteThread writeThread = new WriteThread();
         myAdapter.setOnItemClickListener(new WordAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
-                //Deletes the word from the adapter (list on screen) and from the mainArray
-                dictionary.deleteWord(position);
+                //Deletes the word from the adapter (list on screen) and from the hashmap
+                dictionary.deleteWord(dictionary.hashMap, myWordList.get(position).getWord());
+//                wordPosition += 1;
+//                arrayPosition=position;
                 //Item will be removed from the recycler view
                 MainActivity.myWordList.remove(position);
-
                 MainActivity.myAdapter.notifyItemRemoved(position);
 
-                writeThread.start();
-//                WriteThreadRunnable writeThreadRunnable = new WriteThreadRunnable();
-//                writeThreadRunnable.run();
+                //updates the txt file upon word delete
+                WriteThread deleteThread = new WriteThread();
+                deleteThread.start();
             }
         });
     }
@@ -107,13 +107,22 @@ public class MainActivity extends AppCompatActivity {
                 if (line == null) {
                     break;
                 }
-                wordListArray.add(line);
 
-                //The txt file in the internal storage is
+                // if the table does not contain the key (indicated by the 1st character in word) create a new linked list and point to it.
+                //Else get the linked list of the character/key of hte word and insert @ end of list
+                dictionary.LinkedChainedEntry linkedChainedEntry = new dictionary.LinkedChainedEntry();
+                if (!dictionary.hashMap.containsKey(line.charAt(0))) {
+                    linkedChainedEntry.insert(line);
+                    dictionary.hashMap.put(line.charAt(0), linkedChainedEntry);
+                } else {
+                    linkedChainedEntry = dictionary.hashMap.get(line.charAt(0));
+                    linkedChainedEntry.insert(line);
+                }
+
+                //Insert into the displays list
                 InsertWordActivity.insertItem(count, line);
                 count++;
             }
-//wordList.remove(wordList.get(MainActivity.arraySize()-1));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,17 +147,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //    class WriteThreadRunnable implements Runnable{
-//
-//
-//        @Override
-//        public void run() {
-//            dictionary.writeFile(file);
-//        }
-//    }
-    //a thread will be created to rewrite the file upon
-    class WriteThread extends Thread {
 
+    //    a thread will be created to rewrite the file upon deletion
+    class WriteThread extends Thread {
         @Override
         public void run() {
             dictionary.writeFile(file);

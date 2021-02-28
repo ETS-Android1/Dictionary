@@ -18,10 +18,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class ExampleUnitTest {
     private static final ArrayList<String> mainArray = new ArrayList<>();
-    public static int wordPosition;
     private static final ArrayList<String> minSearchArray = new ArrayList<>();
     //has the index of the words from the MainActivity.werdArrayList
     private static final ArrayList<Integer> minSearchIndex = new ArrayList<>();
+    public static int wordPosition;
 
     @Test
     public void addition_isCorrect() {
@@ -50,7 +50,7 @@ public class ExampleUnitTest {
 //    String[] first = {"add", "asdf", "awesrt", "awd", "bad", "badd", "catt", "cter", "cbnf"};
         mainArray.add("add");
 
-//        boolean searched = searchWord("Catskilll", mainArray);        assertEquals(searched, false);
+        //boolean searched = searchWord("Catskilll", mainArray);        assertEquals(searched, false);
         // boolean searched=delete("cabvdn",mainArray);        assertEquals(searched,true);
         // boolean searched = insert("cabvdn", mainArray);        assertEquals(searched, true);
 
@@ -73,7 +73,6 @@ public class ExampleUnitTest {
     public void HashTest() {
         //Hashmap for the hash table dictionary
         HashMap<Character, LinkedChainedEntry> m = new HashMap<>();
-
 
         //create an array to simulate traversal through words.txt
         String[] first = {"add", "asdf", "awesrt", "awd", "bad", "badd", "catt", "cter", "cbnf"};
@@ -102,13 +101,12 @@ public class ExampleUnitTest {
         System.out.println("=====================DELETE STRING \"cter\"=======================");
         delete(m, "cter");
 
-
         System.out.println("=====================INSERT WORD \"cter\"=======================");
         insertNode(m, "cter");
 
         System.out.println("=====================SEARCH WORD \"cter\"=======================");
         boolean searched = searchWord(m, "cter");
-        assertTrue(String.valueOf(searched), true);
+        assertTrue(searched);
 
     }
 
@@ -135,24 +133,31 @@ public class ExampleUnitTest {
             LinkedNode currentNode = chainedEntry.head;
             LinkedNode newNode = new LinkedNode(word);
 
-            //insert @ head
-            if (currentNode == null && currentNode.word.compareTo(word) < 0) {
-                currentNode = newNode;
-                currentNode.previous = null;
-            }
+
             while (currentNode != null) {
-                //insert @ between
-                if (currentNode.word.compareTo(word) > 0) {//e.g. str1.compareTo(str2). str1<str2=-1, str1=str2==0, str1>str2=1
+                System.out.println(currentNode.word.compareTo(word));
+                //insert @ head
+                if (currentNode.previous == null && currentNode.word.compareTo(word) > 0) {
+                    chainedEntry.head = newNode;
+//                    currentNode.previous = null;
+                    currentNode.previous = chainedEntry.head;
+                    chainedEntry.head.next = currentNode;
+                    break;
+                }
+                //insert @ between.
+                if (currentNode.previous != null && currentNode.next != null && currentNode.word.compareTo(word) < 0) {//e.g. str1.compareTo(str2). str1<str2=-1, str1=str2==0, str1>str2=1
                     newNode.next = currentNode.next;
                     currentNode.next.previous = newNode;
                     newNode.previous = currentNode;
                     currentNode.next = newNode;
+                    break;
                 }
                 //insert @ end
-                else if (currentNode.word.compareTo(word) > 0 && currentNode.next == null) {
-                    chainedEntry.tail.next = newNode;
-                    newNode.previous = chainedEntry.tail;
-                    newNode.next = null;
+                else if (currentNode.word.compareTo(word) < 0 && currentNode.next == null) {
+                    chainedEntry.tail = newNode;
+                    currentNode.next = chainedEntry.tail;
+                    chainedEntry.tail.previous = currentNode;
+                    break;
                 }
                 currentNode = currentNode.next;
             }
@@ -160,30 +165,14 @@ public class ExampleUnitTest {
         } catch (NullPointerException e) {
             //if the key doesn't exist and a NullPointer error is thrown, a new key and value is created
             LinkedChainedEntry newChainEntry = new LinkedChainedEntry();
+//            LinkedNode newNode = new LinkedNode(word);
+//            newChainEntry.head=newChainEntry.tail=newNode;
+            newChainEntry.insert(word);
             m.put(word.charAt(0), newChainEntry);
-            insertNode(m, word);
+            newChainEntry.display();
+
+//            insertNode(m, word);
         }
-//        LinkedNode newNode = new LinkedNode(data);
-//        //If list is empty
-//        if (head == null) {
-//            //Both head and tail will point to newNode
-//            head = tail = newNode;
-//            //head's previous will point to null
-//            head.previous = null;
-//            //tail's next will point to null, as it is the last node of the list
-//            tail.next = null;
-//        }
-//        //Add newNode as new tail of the list
-//        else {
-//            //newNode will be added after tail such that tail's next will point to newNode
-//            tail.next = newNode;
-//            //newNode's previous will point to tail
-//            newNode.previous = tail;
-//            //newNode will become new tail
-//            tail = newNode;
-//            //As it is last node, tail's next will point to null
-//            tail.next = null;
-//        }
     }
 
     public void delete(Map<Character, LinkedChainedEntry> m, String word) {
@@ -201,34 +190,24 @@ public class ExampleUnitTest {
                      * tempNodes previous and next values will be null*/
                     chainedEntry.head = tempNode.next;
                     chainedEntry.head.previous = null;
-                    tempNode.previous = tempNode.next = null;
                     //delete @ head w/ one node in list
-                    if (chainedEntry.head.next == chainedEntry.tail) {
+                    if (chainedEntry.head.word.equals(chainedEntry.tail.word)) {
                     /*if the heads next pointer is the tail remove the node entirely.
                     i.e. if there is only one node in the list remove the list entirely from the list*/
                         m.remove(word.charAt(0));
                     }
                 }
                 //delete @ between
-                else if (tempNode.previous != null && tempNode.next != null) {
+                else if (tempNode.next != null) {
                     tempNode.previous.next = tempNode.next;
                     tempNode.next.previous = tempNode.previous;
-                    tempNode.previous = tempNode.next = null;
+//                    tempNode.previous = tempNode.next = null;
                 }
                 //delete @ end
-                else if (tempNode.next == null) {
+                else {//if (tempNode.next == null) {
                     chainedEntry.tail = tempNode.previous;
                     chainedEntry.tail.next = null;
-                    tempNode.next = tempNode.previous = null;
                 }
-//                Checks whether the list contains only one element
-//                if (chainedEntry.head != chainedEntry.tail) {
-//                    //head will point to next node in the list
-//                    chainedEntry.head = tempNode.next;
-//                    //Previous node to current head will be made null
-//                    chainedEntry.head.previous = null;
-//                }
-//                return;
                 break;
             }
             tempNode = tempNode.next;
@@ -245,8 +224,6 @@ public class ExampleUnitTest {
 
         public LinkedNode(String word) {
             this.word = word;
-//            this.previous = null;
-//            this.next = null;
         }
     }
 
@@ -261,35 +238,20 @@ public class ExampleUnitTest {
         }
 
         public void insert(String data) {
-            //Todo: gotten from online. Should implement own
+            //Inserts a node into the respectable linked list
             LinkedNode newNode = new LinkedNode(data);
-//
-//            if (this.head == null) {
-//                this.head = node;
-//            } else {
-//                this.tail.next = node;
-//                node.previous = this.tail;
-//            }
-//
-//            this.tail = node;
-            if (head == null) {
+            if (this.head == null) {
                 //Both head and tail will point to newNode
-                head = tail = newNode;
-                //head's previous will point to null
-                head.previous = null;
-                //tail's next will point to null, as it is the last node of the list
-                tail.next = null;
+                this.head = this.tail = newNode;
             }
             //Add newNode as new tail of the list
             else {
                 //newNode will be added after tail such that tail's next will point to newNode
-                tail.next = newNode;
+                this.tail.next = newNode;
                 //newNode's previous will point to tail
-                newNode.previous = tail;
+                newNode.previous = this.tail;
                 //newNode will become new tail
-                tail = newNode;
-                //As it is last node, tail's next will point to null
-                tail.next = null;
+                this.tail = newNode;
             }
         }
 
