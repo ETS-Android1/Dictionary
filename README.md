@@ -8,7 +8,7 @@ The tools utilized in this project are the **Android Studio IDE** and the **Java
 To obtain the most recent release, see the [releases](https://github.com/tiwaojo/Dictionary/releases) page.
 ## Demo
 To observe the application in action without the need to download the `.apk`, check out the screenshots below
-- [Home Page](misc/img/Screenshot_20210227_182621.png)
+- [Home Page](misc/gallery/Screenshot_20210227_182621.png)
 - [Initial search](misc/img/Screenshot_20210227_182650.png)
 - [Deleting word from home screen](misc/img/Screenshot_20210227_014423.png)
 - [Insert page](misc/img/Screenshot_20210227_183102.png)
