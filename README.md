@@ -9,11 +9,11 @@ To obtain the most recent release, see the [releases](https://github.com/tiwaojo
 ## Demo
 To observe the application in action without the need to download the `.apk`, check out the screenshots below
 - [Home Page](misc/gallery/Screenshot_20210227_182621.png)
-- [Initial search](misc/img/Screenshot_20210227_182650.png)
-- [Deleting word from home screen](misc/img/Screenshot_20210227_014423.png)
-- [Insert page](misc/img/Screenshot_20210227_183102.png)
-- [Insert toast](misc/img/Screenshot_20210227_183107.png)
-- [Home Page update with toast](misc/img/Screenshot_20210227_183150.png)
+- [Initial search](misc/gallery/Screenshot_20210227_182650.png)
+- [Deleting word from home screen](misc/gallery/Screenshot_20210227_014423.png)
+- [Insert page](misc/gallery/Screenshot_20210227_183102.png)
+- [Insert toast](misc/gallery/Screenshot_20210227_183107.png)
+- [Home Page update with toast](misc/gallery/Screenshot_20210227_183150.png)
 - More resources can be found in the [gallery](https://github.com/tiwaojo/Dictionary/tree/master/misc/gallery)
 
 #### Special Mentions & Resources
